@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduQuery - CCNA AI Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="RAG.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════ -->
+<header>
+  <div class="header-left">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#B6F2CC" stroke-width="2" stroke-linecap="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <div class="header-title">Edu<span>Query</span></div>
+  </div>
+
+  <div class="header-right">
+    <div class="header-badge">CCNA Learning Assistant</div>
+    <div class="theme-toggle">
+      <span class="toggle-emoji"></span>
+      <button class="toggle-track" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+        <div class="toggle-knob"></div>
+      </button>
+      <span class="toggle-emoji"></span>
+      <span class="toggle-label" id="toggleLabel">WHITE</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     MAIN APP BODY
+════════════════════════════════════════════ -->
+<div class="app-body">
+
+  <!-- ─── LEFT COLUMN: System Status + History ─── -->
+  <div class="left-col">
+
+    <!-- System Status Panel -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <div>
+          <div class="panel-title">System Status</div>
+          <div class="panel-subtitle">Vector Store Active</div>
+        </div>
+      </div>
+      <div style="padding: 1rem 1.25rem;">
+        <div style="background: var(--bg-card); border-radius: 8px; padding: 1rem; border-left: 3px solid var(--accent);">
+          <div style="font-weight: 600; margin-bottom: 0.5rem;">CCNA knowledge base loaded</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Ready to answer your questions</div>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between;">
+            <span>Total Questions:</span>
+            <span id="statQ">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Panel -->
+    <div class="panel" style="margin-top: 1.25rem;">
+      <div class="panel-header">
+        <div class="panel-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+            <polyline points="12 8 12 12 14 14"/>
+            <path d="M3.05 11a9 9 0 108.76-8.02"/>
+            <polyline points="3 4 3 11 10 11"/>
+          </svg>
+        </div>
+        <div><div class="panel-title">History</div></div>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+
+  </div><!-- /left-col -->
+
+  <!-- ─── CENTER COLUMN: Chat ─── -->
+  <div class="panel chat-panel">
+    <div class="panel-header">
+      <div class="panel-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="panel-title">CCNA Assistant</div>
+        <div class="panel-subtitle" id="activedocname">CCNA ITN Modules — loaded</div>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+      <div class="welcome-msg" id="welcomeMsg">
+        <div class="welcome-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="welcome-heading">Ask any CCNA Question</div>
+        <div class="welcome-text">I am here to help you learn networking concepts, prepare for exams, and understand CCNA topics.</div>
+        <div class="quick-prompts">
+          <button class="quick-prompt" onclick="sendQuick(this)">What are the main topics in CCNA?</button>
+          <button class="quick-prompt" onclick="sendQuick(this)">Explain the OSI model layers</button>
+          <button class="quick-prompt" onclick="sendQuick(this)">What is the TCP/IP model?</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Footer -->
+    <div class="chat-footer">
+      <div class="chat-input-row">
+        <textarea
+          class="chat-textarea"
+          id="chatInput"
+          placeholder="Type your CCNA question here..."
+          rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
+          oninput="autoResize(this)">
+        </textarea>
+        <button class="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="footer-hint">Press Enter to send · Shift+Enter for new line</div>
+    </div>
+
+  </div><!-- /chat-panel -->
+
+</div><!-- /app-body -->
+
+<script src="RAG.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+ccna_vectorstore/
+cccna_vectorstore/
+*.pdf
+delete_wrong.py
+hello.py
+Day2.py
+Day3.py
+Day4.py
+Day5.py
+ccna_notes.txt
