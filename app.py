@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from ccna_rag import generate_answer, load_vectorstore, create_vectorstore, chunk_text
+from ccna_rag import generate_answer, load_vectorstore, create_vectorstore, chunk_text, load_all_modules
 import os
 from ccna_rag import generate_quiz_questions
 
