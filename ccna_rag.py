@@ -67,8 +67,10 @@ if __name__ == "__main__":
 
 def create_vectorstore(chunks):
     embeddings = HuggingFaceEmbeddings(
-        model_name="all-MiniLM-L6-v2"
-    )
+    model_name="all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"},
+    encode_kwargs={"normalize_embeddings": False}
+)
 
     vectorstore = Chroma.from_texts(
         texts=chunks,
@@ -80,8 +82,10 @@ def create_vectorstore(chunks):
 
 def load_vectorstore():
     embeddings = HuggingFaceEmbeddings(
-        model_name ="all-MiniLM-L6-v2"
-    )
+    model_name="all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"},
+    encode_kwargs={"normalize_embeddings": False}
+)
 
     vectorstore = Chroma(
         persist_directory="cccna_vectorstore",
