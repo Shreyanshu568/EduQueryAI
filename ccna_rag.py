@@ -88,7 +88,7 @@ def load_vectorstore():
 )
 
     vectorstore = Chroma(
-        persist_directory="cccna_vectorstore",
+        persist_directory="ccna_vectorstore",
         embedding_function=embeddings
     )
 
