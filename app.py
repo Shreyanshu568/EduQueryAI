@@ -20,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# Load vectorstore once at startup (NOT create
+# Load vectorstore once at startup (NOT create)
 vectorstore = load_vectorstore()
 
 # Request Model
