@@ -1,8 +1,6 @@
 .env
 __pycache__/
 *.pyc
-ccna_vectorstore/
-cccna_vectorstore/
 *.pdf
 delete_wrong.py
 hello.py
