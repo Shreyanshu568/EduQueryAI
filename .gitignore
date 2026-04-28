@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 *.pdf
+*.pptx
 delete_wrong.py
 hello.py
 Day2.py
