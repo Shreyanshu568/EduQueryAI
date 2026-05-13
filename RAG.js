@@ -75,8 +75,8 @@ function sendMessage() {
                  text.toLowerCase().includes('generate questions');
 
   const endpoint = isQuiz ? 
-    'http://127.0.0.1:8000/quiz' : 
-    'http://127.0.0.1:8000/ask';
+    '/quiz' : 
+    '/ask';
 
   fetch(endpoint, {
     method: 'POST',
