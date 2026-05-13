@@ -1,6 +1,8 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
@@ -19,6 +21,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+#Serve static files (CSS,JS) 
+app.mount("/static", StaticFiles(directory="."), name="static")
 
 # Load vectorstore once at startup (NOT create)
 vectorstore = load_vectorstore()
@@ -26,6 +30,12 @@ vectorstore = load_vectorstore()
 # Request Model
 class Question(BaseModel):
     question: str
+#Serve frontend HTML 
+@app.get("/")
+async def serve_frontend():
+    with open("RAG.html", "r", encoding="utf-8") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
 
 # Main endpoint
 @app.post("/ask") 
